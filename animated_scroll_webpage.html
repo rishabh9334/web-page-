@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Digital Art Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(#050505, #0a0a23);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* WELCOME SCREEN */
+    #welcome {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, #3a0066, #120012);
+      color: #ffffff;
+      font-size: 6rem;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 5px;
+      text-shadow: 0 0 20px #bb00ff, 0 0 40px #ff00ff;
+      animation: welcomePop 2.5s ease forwards, floating 4s ease-in-out infinite;
+    }
+
+    @keyframes welcomePop {
+      0% { opacity: 0; transform: scale(0.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes floating {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* MAIN SCROLL PAGE */
+    #mainPage {
+      display: none;
+      padding: 80px 20px;
+      background: linear-gradient(#0a0a0a, #1b0030);
+      color: #fff;
+    }
+
+    .imgBox {
+      width: 100%;
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(200, 0, 255, 0.3);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(80px) scale(0.9);
+      transition: 0.8s ease;
+    }
+
+    .imgBox.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .imgBox img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+    }
+
+    .imgBox p {
+      font-size: 1.1rem;
+      margin-top: 15px;
+      line-height: 1.6;
+      text-align: center;
+      color: #f2d9ff;
+    }
+
+    .nextBtn {
+      display: none;
+      margin: 50px auto;
+      padding: 18px 30px;
+      background: linear-gradient(45deg, #9400ff, #ff00c8);
+      color: #fff;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
+      transition: 0.3s;
+    }
+
+    .nextBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 35px rgba(255, 0, 255, 0.8);
+    }
+
+    /* FINAL PAGE */
+    #finalPage {
+      display: none;
+      height: 100vh;
+      background: linear-gradient(#140014, #3d005e);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+      text-align: center;
+      animation: fadeIn 2s ease;
+      text-shadow: 0 0 15px #ff00f2;
+    }
+
+    #instaLink {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background: linear-gradient(45deg, #ff00d4, #ff0080);
+      color: #fff;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(255, 0, 200, 0.6);
+      transition: 0.3s;
+    }
+
+    #instaLink:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 35px rgba(255, 0, 255, 0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FIRST PAGE -->
+  <div id="welcome">WELCOME</div>
+
+  <!-- SCROLL PAGE -->
+  <div id="mainPage">
+    <div class="imgBox"><img src="img1.jpg"><p>Digital art blends creativity and technology. It's created using drawing tablets, AI tools, or software like Photoshop.</p></div>
+    <div class="imgBox"><img src="img2.jpg"><p>By using layers, brushes, and effects, artists build detailed artwork step-by-step.</p></div>
+    <div class="imgBox"><img src="img3.jpg"><p>AI art tools help create unique artwork quickly with prompts and style control.</p></div>
+    <div class="imgBox"><img src="img4.jpg"><p>You can mix drawing + AI to create your own unique signature style.</p></div>
+  </div>
+
+  <div class="nextBtn" id="nextBtn">Next</div>
+
+  <!-- FINAL PAGE -->
+  <div id="finalPage">
+    <div id="finalText">If you want a page like this contact me on my Instagram</div>
+    <a id="instaLink" href="https://www.instagram.com/_stranger_1st?igsh=dGV2eW9rOGM5cmR4" target="_blank">Visit Instagram</a>
+  </div>
+
+  <script>
+    // Click to enter main page
+    document.getElementById("welcome").onclick = function() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("mainPage").style.display = "block";
+    };
+
+    // Scroll animation
+    window.addEventListener("scroll", function() {
+      document.querySelectorAll('.imgBox').forEach(box => {
+        const rect = box.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          box.classList.add('visible');
+        }
+      });
+
+      // Show NEXT button after all visible
+      const lastBox = document.querySelectorAll('.imgBox')[3];
+      const rect = lastBox.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 200) {
+        document.getElementById("nextBtn").style.display = "block";
+      }
+    });
+
+    // Next button
+    document.getElementById("nextBtn").onclick = function() {
+      document.getElementById("mainPage").style.display = "none";
+      document.getElementById("nextBtn").style.display = "none";
+      document.getElementById("finalPage").style.display = "flex";
+    };
+  </script>
+
+</body>
+</html>
